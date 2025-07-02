@@ -8,9 +8,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
+import { useDeleteBookMutation } from "@/redux/features/books/bookApi";
 import type { IBookFull } from "@/types/book.type";
+import { getErrorMessage } from "@/utils/errorHandler";
 import { Pen, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router";
+import { toast } from "sonner";
 
 type BooksTableProps = {
   books: IBookFull[]; // Accepts array or undefined
@@ -18,6 +21,14 @@ type BooksTableProps = {
 
 export default function BooksTable({ books }: BooksTableProps) {
   const navigate = useNavigate();
+
+  const [
+    deleteBook,
+    {
+      isLoading,
+      //  isError, isSuccess
+    },
+  ] = useDeleteBookMutation();
 
   function handelBorrowRedirect(id: string) {
     if (!id) return;
@@ -29,8 +40,19 @@ export default function BooksTable({ books }: BooksTableProps) {
     navigate(`/book/update/${id}`);
   }
 
-  function handleBookDelete(id: string) {
-    console.log("Deleting Book", id);
+  async function handleBookDelete(bookId: string) {
+    console.log("Deleting Book", bookId);
+
+    if (confirm("Are you sure you want to delete this book?")) {
+      try {
+        await deleteBook(bookId).unwrap();
+        toast.success("Book deleted successfully ");
+      } catch (error) {
+        const msg = getErrorMessage(error);
+        toast.error(`Failed to remove Book: ${msg}`);
+        console.log("Failed to delete:", error);
+      }
+    }
   }
 
   return (
@@ -71,6 +93,7 @@ export default function BooksTable({ books }: BooksTableProps) {
                 {/* book delete btn */}
                 <Button
                   onClick={() => handleBookDelete(book._id)}
+                  disabled={isLoading}
                   variant={"outline"}
                   className='bg-gray-100 hover:cursor-pointer'>
                   <Trash2 color='red' />
