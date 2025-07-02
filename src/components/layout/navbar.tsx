@@ -19,13 +19,13 @@ export default function Navbar() {
         <div>
           <ul className='flex gap-5 font-semibold'>
             <li className='hover:underline'>
-              <Link to='/'>Home</Link>
+              <Link to='/all-book'>All Books</Link>
             </li>
             <li className='hover:underline'>
-              <Link to='/books'>Books</Link>
+              <Link to='/book/create'>Add Book</Link>
             </li>
             <li className='hover:underline'>
-              <Link to='/borrow'>Borrow</Link>
+              <Link to='/borrow-summary'>Borrow Summary</Link>
             </li>
           </ul>
         </div>

@@ -3,6 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 // base url
 const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
+console.log("base api url", BASE_API_URL);
 
 // Define a service using a base URL and expected endpoints
 export const bookApi = createApi({
