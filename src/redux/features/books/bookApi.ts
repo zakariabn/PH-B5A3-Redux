@@ -1,4 +1,5 @@
 // Need to use the React-specific entry point to import createApi
+import type { IBook, IBookFull, IBookResponse } from "@/types/book.type";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 // base url
@@ -11,11 +12,24 @@ export const bookApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: BASE_API_URL }),
   endpoints: (builder) => ({
     // get all book
-    getBooks: builder.query({
+    getBooks: builder.query<IBookResponse, void>({
       query: () => `/books`,
     }),
 
-    // DELETE book
+    getSingleBooks: builder.query<IBookResponse, string>({
+      query: (id: string) => `/books/${id}`,
+    }),
+    
+
+    createBook: builder.mutation<IBook, Partial<IBook>>({
+      query: (newBook) => ({
+        url: "/books",
+        method: "POST",
+        body: newBook,
+      }),
+    }),
+
+    // delete book
     deleteBook: builder.mutation({
       query: (id: string) => ({
         url: `/books/${id}`,
@@ -24,7 +38,7 @@ export const bookApi = createApi({
     }),
 
     // update book (PUT)
-    updateBook: builder.mutation({
+    updateBook: builder.mutation<IBookFull, { id: string }>({
       query: ({ id, ...payload }) => ({
         url: `/books/${id}`,
         method: "PUT",
@@ -34,21 +48,12 @@ export const bookApi = createApi({
   }),
 });
 
-/*
-    updatePost: build.mutation<Post, Partial<Post> & Pick<Post, 'id'>>({
-      // note: an optional `queryFn` may be used in place of `query`
-      query: ({ id, ...patch }) => ({
-        url: `post/${id}`,
-        method: 'PATCH',
-        body: patch,
-      }),
-
-*/
-
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
 export const {
   useGetBooksQuery,
+  useGetSingleBooksQuery,
+  useCreateBookMutation,
   useDeleteBookMutation,
   useUpdateBookMutation,
 } = bookApi;

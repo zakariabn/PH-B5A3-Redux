@@ -17,7 +17,7 @@ export default function BookPage() {
     isLoading,
     // isFetching,
     // refetch,
-  } = useGetBooksQuery("boos");
+  } = useGetBooksQuery("books");
 
   if (isLoading) {
     return <Loading />;
@@ -28,8 +28,10 @@ export default function BookPage() {
   }
 
   function handleAddBookRedirect() {
-    navigate("/books/create");
+    navigate("/book/create");
   }
+
+  console.log(books);
 
   return (
     <div className='my-5'>

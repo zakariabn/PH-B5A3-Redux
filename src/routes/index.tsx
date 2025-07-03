@@ -4,7 +4,7 @@ import AuthLayout from "@/pages/auth/AuthLayout";
 import LoginPage from "@/pages/auth/login/LoginPage";
 import RegisterPage from "@/pages/auth/register/RegisterPage";
 import BookPage from "@/pages/book/BookPage";
-import CreateBook from "@/pages/book/create-book/CreateBook";
+import CreateBookPage from "@/pages/book/create-book/CreateBook";
 import UpdateBook from "@/pages/book/update-book/UpdateBook";
 import BorrowBookPage from "@/pages/borrow/borrow-book/BorrowBookPage";
 import BorrowSummaryPage from "@/pages/borrow/summary/BorrowSummaryPage";
@@ -23,7 +23,7 @@ const router = createBrowserRouter([
       { path: "/", Component: HomePage },
       { path: "home", Component: HomePage },
       { path: "all-book", Component: BookPage },
-      { path: "book/create", Component: CreateBook },
+      { path: "book/create", Component: CreateBookPage },
       { path: "book/update/:bookId", Component: UpdateBook },
       { path: "borrow-summary", Component: BorrowSummaryPage },
       { path: "borrow/:bookId", Component: BorrowBookPage },

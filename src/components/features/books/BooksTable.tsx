@@ -26,7 +26,7 @@ export default function BooksTable({ books }: BooksTableProps) {
     deleteBook,
     {
       isLoading,
-      //  isError, isSuccess
+      //  isError, isSuccess,
     },
   ] = useDeleteBookMutation();
 
@@ -46,7 +46,7 @@ export default function BooksTable({ books }: BooksTableProps) {
     if (confirm("Are you sure you want to delete this book?")) {
       try {
         await deleteBook(bookId).unwrap();
-        toast.success("Book deleted successfully ");
+        toast.success("Book deleted successfully");
       } catch (error) {
         const msg = getErrorMessage(error);
         toast.error(`Failed to remove Book: ${msg}`);
