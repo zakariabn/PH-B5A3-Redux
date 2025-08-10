@@ -1,27 +1,29 @@
-import type { RootState } from "@/redux/store";
-import type { IBook } from "@/types/book.type";
 import { createSlice } from "@reduxjs/toolkit";
 
-interface BookInitState {
-  books: IBook[];
-}
-
-const initialState: BookInitState = {
-  books: [],
+const initialState = {
+  currentPage: 1,
+  totalPages: 1,
+  limit: 10,
 };
 
 const bookSlice = createSlice({
   name: "books",
   initialState,
   reducers: {
-    getBooks: (state, actions) => {
-      console.log(state, actions);
+    setPage(state, action) {
+      state.currentPage = action.payload;
+    },
+    setTotalPages(state, action) {
+      state.totalPages = action.payload;
+    },
+    setLimit(state, action) {
+      state.limit = action.payload;
     },
   },
 });
 
-export const { getBooks } = bookSlice.actions;
+export const { setPage, setTotalPages, setLimit } = bookSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectCount = (state: RootState) => state.books.books;
+// export const selectCount = (state: RootState) => state.books.books;
 export default bookSlice.reducer;

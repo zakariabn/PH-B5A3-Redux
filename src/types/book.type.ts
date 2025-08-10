@@ -1,3 +1,5 @@
+import type { IResponseData } from "./common.type";
+
 export type Genre =
   | "FICTION"
   | "NON_FICTION"
@@ -22,17 +24,23 @@ export interface IBookFull extends IBook {
   createAt: Date;
 }
 
-export interface IBookResponse {
-  success: boolean;
-  message: string;
+export interface IBookResponse extends IResponseData {
   data?: IBookFull;
-  error?: {}
+}
+export interface IAllBookResponse extends IResponseData {
+  books: IBookFull[];
+  pagination: {
+    page: number;
+    totalPage: number;
+    limit: number;
+  };
 }
 
-export type OnSubmit = (values: IBook, reset: () => void) => void;  
+export type OnSubmitBook = (values: IBook, reset: () => void) => void;
+
 export interface IBookFormProps {
   defaultValues?: Partial<IBook>;
   submitLabel?: string;
-  onSubmit: OnSubmit;
+  onSubmit: OnSubmitBook;
   isLoading?: boolean;
 }

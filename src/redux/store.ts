@@ -10,7 +10,11 @@ export const store = configureStore({
     [borrowApi.reducerPath]: borrowApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(bookApi.middleware, borrowApi.middleware),
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ["persist/PERSIST"],
+      },
+    }).concat(bookApi.middleware, borrowApi.middleware),
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

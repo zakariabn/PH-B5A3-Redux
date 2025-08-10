@@ -22,8 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import type {IBook, IBookFormProps } from "@/types/book.type";
-
+import type { IBook, IBookFormProps } from "@/types/book.type";
 
 /* -------------------------- shared schema / types ------------------------- */
 const GENRES = [
@@ -52,7 +51,7 @@ export default function BookForm({
   submitLabel = "Save",
   onSubmit,
   isLoading = false,
-} : IBookFormProps) {
+}: IBookFormProps) {
   const form = useForm({
     resolver: zodResolver(bookSchema),
     defaultValues: {

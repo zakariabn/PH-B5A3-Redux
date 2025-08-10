@@ -1,37 +1,46 @@
-import ErrorMessage from "@/components/common/ErrorMessage";
 import Loading from "@/components/common/Loading";
 import BooksTable from "@/components/features/books/BooksTable";
 import { Button } from "@/components/ui/button";
 import { useGetBooksQuery } from "@/redux/features/books/bookApi";
+import type { IAllBookResponse } from "@/types/book.type";
 import { Plus } from "lucide-react";
 import { useNavigate } from "react-router";
+import { useAppSelector } from "@/redux/hooks";
 
 export default function BookPage() {
   // Using a query hook automatically fetches data and returns query values
-
   const navigate = useNavigate();
+  const { currentPage, limit } = useAppSelector((state) => state.books);
 
   const {
-    data: books,
-    error,
+    data,
     isLoading,
     // isFetching,
     // refetch,
-  } = useGetBooksQuery("books");
+  } = useGetBooksQuery({ page: currentPage, limit });
 
   if (isLoading) {
     return <Loading />;
-  }
-
-  if (error) {
-    return <ErrorMessage err={error} />;
   }
 
   function handleAddBookRedirect() {
     navigate("/book/create");
   }
 
-  console.log(books);
+  // Debug: Log the raw response
+  console.log("Raw API response:", data);
+
+  // handling if book not found
+  if (!data) {
+    return (
+      <div className='text-center text-red-500 mt-10'>
+        Book not found or failed to load.
+      </div>
+    );
+  }
+
+  const booksData = data as IAllBookResponse;
+  console.log("Processed books data:", booksData);
 
   return (
     <div className='my-5'>
@@ -50,7 +59,7 @@ export default function BookPage() {
         </Button>
 
         {/* books table */}
-        <BooksTable books={books?.data} />
+        <BooksTable booksData={booksData} />
       </div>
     </div>
   );
